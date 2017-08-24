@@ -15,12 +15,9 @@
  ******************************************************************************/
 package com.baremetalstudios.minicam.geometry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import com.baremetalstudios.minicam.config.OutputConfig;
+
+import java.util.*;
 
 public class DrillGroup implements Transformable {
     private final List<Point> drills = new ArrayList<Point>();
@@ -41,12 +38,16 @@ public class DrillGroup implements Transformable {
 
     @Override
     public void translate(double dX, double dY) {
-        drills.forEach(point -> point.translate(dX, dY));
+        for(Point point: drills){
+            point.translate(dX, dY);
+        }
     }
 
     @Override
     public void rotate90(Direction direction) {
-        drills.forEach(point -> point.rotate90(direction));
+        for(Point point:drills){
+            point.rotate90(direction);
+        }
     }
 
     public double getDiameter() {
@@ -133,10 +134,13 @@ public class DrillGroup implements Transformable {
     }
 
     private void sortDrills() {
-        drills.sort((o1, o2) -> {
-            double d = o1.getX() - o2.getX();
-            d = (d == 0) ? (o1.getY() - o2.getY()) : d;
-            return (int) Math.signum(d);
+        Collections.sort(drills, new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                double d = o1.getX() - o2.getX();
+                d = (d == 0) ? (o1.getY() - o2.getY()) : d;
+                return (int) Math.signum(d);
+            }
         });
     }
 

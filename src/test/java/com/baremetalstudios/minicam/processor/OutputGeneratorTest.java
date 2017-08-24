@@ -1,19 +1,17 @@
 package com.baremetalstudios.minicam.processor;
 
-import static org.junit.Assert.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.baremetalstudios.minicam.config.OutputConfig;
 import com.baremetalstudios.minicam.geometry.DrillGroup;
 import com.baremetalstudios.minicam.geometry.Point;
 import com.baremetalstudios.minicam.geometry.Polygon;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class OutputGeneratorTest {
     private String expected = "G94     ( Millimeters per minute feed rate. )\n" + "G21     ( Units == Millimeters. )\n"
@@ -44,13 +42,18 @@ public class OutputGeneratorTest {
                               + "G81 R5.00000 Z-2.20000 X1.80000 Y1.80000\n" + "\n" + "G00 Z55.00000 ( retract )\n"
                               + "M5 ( Spindle stop. )\n" + "M9 ( Coolant off. )\n" + "M2 ( Program end. )\n";
 
+    @Before
+    public void setup(){
+        Locale.setDefault(Locale.US);
+    }
+
     @Test
     public void singlePolygonIsGeneratedCorrectly() throws Exception {
         List<Point> points = new ArrayList<Point>(Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 2),
                                                                 new Point(2, 1), new Point(1, 1)));
         Polygon p1 = new Polygon(points);
-        DrillGroup drillGroup1 = new DrillGroup("T01", 0.5, Arrays.asList(new Point(1.5, 1.5)));
-        DrillGroup drillGroup2 = new DrillGroup("T02", 0.9, Arrays.asList(new Point(1.8, 1.8)));
+        DrillGroup drillGroup1 = new DrillGroup("T01", 0.5, Collections.singletonList(new Point(1.5, 1.5)));
+        DrillGroup drillGroup2 = new DrillGroup("T02", 0.9, Collections.singletonList(new Point(1.8, 1.8)));
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream pw = new PrintStream(os);
@@ -59,7 +62,7 @@ public class OutputGeneratorTest {
         config.setSeparator("\n");
         OutputGenerator generator = new OutputGenerator(pw, config);
 
-        generator.generate(Arrays.asList(p1), Arrays.asList(drillGroup1, drillGroup2));
+        generator.generate(Collections.singletonList(p1), Arrays.asList(drillGroup1, drillGroup2));
 
         pw.close();
         String result = os.toString("UTF-8");

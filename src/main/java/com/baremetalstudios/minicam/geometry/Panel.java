@@ -15,14 +15,14 @@
  ******************************************************************************/
 package com.baremetalstudios.minicam.geometry;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.baremetalstudios.minicam.config.OutputConfig;
 import com.baremetalstudios.minicam.processor.DrillProcessor;
 import com.baremetalstudios.minicam.processor.OutputGenerator;
 import com.baremetalstudios.minicam.processor.PolygonProcessor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Panel implements Transformable {
     private List<Polygon> outlines;
@@ -107,7 +107,10 @@ public class Panel implements Transformable {
 
         replaced = drillProcessor.process(replaced);
         replaced = drillProcessor.optimize(replaced);
-        replaced.forEach(drillGroup -> replaceDrills(drillGroup, config));
+
+        for(DrillGroup drillGroup: replaced){
+            replaceDrills(drillGroup, config);
+        }
     }
 
     private void replaceDrills(DrillGroup drillGroup, OutputConfig config) {

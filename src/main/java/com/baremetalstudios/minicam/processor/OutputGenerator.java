@@ -15,17 +15,17 @@
  ******************************************************************************/
 package com.baremetalstudios.minicam.processor;
 
-import java.io.PrintStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Iterator;
-import java.util.List;
-
 import com.baremetalstudios.minicam.config.OutputConfig;
 import com.baremetalstudios.minicam.geometry.Circle;
 import com.baremetalstudios.minicam.geometry.DrillGroup;
 import com.baremetalstudios.minicam.geometry.Point;
 import com.baremetalstudios.minicam.geometry.Polygon;
+
+import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Iterator;
+import java.util.List;
 
 public class OutputGenerator {
     private static final double DRILL_POINT_ANGLE = 130.0; // drill point angle
@@ -60,7 +60,9 @@ public class OutputGenerator {
         }
 
         if (drills != null) {
-            drills.forEach(group -> generateSingleDrillGroup(group));
+            for(DrillGroup group:drills){
+                generateSingleDrillGroup(group);
+            }
         }
     }
 

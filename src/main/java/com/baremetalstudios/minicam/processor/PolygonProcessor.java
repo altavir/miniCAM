@@ -15,14 +15,14 @@
  ******************************************************************************/
 package com.baremetalstudios.minicam.processor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baremetalstudios.minicam.config.OutputConfig;
 import com.baremetalstudios.minicam.geometry.Direction;
 import com.baremetalstudios.minicam.geometry.DrillGroup;
 import com.baremetalstudios.minicam.geometry.Point;
 import com.baremetalstudios.minicam.geometry.Polygon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Polygon inset/line intersection code is a Java translation of public-domain code by Darel Rex Finley, 2006,2007
@@ -42,7 +42,9 @@ public class PolygonProcessor {
         polygons = optimizePolygons(polygons);
         markInnerPolygon(polygons);
         markPolygonDirection(polygons);
-        polygons.forEach(polygon -> polygon.reorder(center));
+        for(Polygon polygon: polygons){
+            polygon.reorder(center);
+        }
 
         polygons = insetPolygons(polygons);
         if (!generateTabs(polygons, drillList)) {
@@ -52,7 +54,9 @@ public class PolygonProcessor {
     }
 
     private List<Polygon> optimizePolygons(List<Polygon> polygons) {
-        polygons.forEach(polygon -> polygon.optimize());
+        for(Polygon polygon: polygons){
+            polygon.optimize();
+        }
         return polygons;
     }
 

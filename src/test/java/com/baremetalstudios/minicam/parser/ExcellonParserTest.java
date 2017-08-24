@@ -1,24 +1,23 @@
 package com.baremetalstudios.minicam.parser;
 
-import static org.junit.Assert.assertEquals;
+import com.baremetalstudios.minicam.geometry.DrillGroup;
+import com.baremetalstudios.minicam.geometry.Point;
+import com.baremetalstudios.minicam.simulator.FormatParser;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.baremetalstudios.minicam.geometry.DrillGroup;
-import com.baremetalstudios.minicam.geometry.Point;
-import com.baremetalstudios.minicam.simulator.FormatParser;
+import static org.junit.Assert.assertEquals;
 
 
 public class ExcellonParserTest {
     //TODO: negative tests
     @Test
     public void fullGroupIsParsedSuccessfully() throws Exception {
-        DrillGroup group = new ExcellonParser().parseGroup("T01C0.021650", new HashMap<>());
+        DrillGroup group = new ExcellonParser().parseGroup("T01C0.021650", new HashMap<String, DrillGroup>());
         assertEquals("T01", group.getId());
         assertEquals(0.021650 * FormatParser.IMPERIAL_SCALE, group.getDiameter(), 0.0000001);
     }
