@@ -1,14 +1,13 @@
 package com.baremetalstudios.minicam.geometry;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
+import com.baremetalstudios.minicam.config.OutputConfig;
+import org.junit.Before;
 import org.junit.Test;
 
-import com.baremetalstudios.minicam.config.OutputConfig;
+import java.util.Arrays;
+import java.util.Locale;
+
+import static org.junit.Assert.*;
 
 
 public class PanelTest {
@@ -18,6 +17,11 @@ public class PanelTest {
                     "Drill 0.50 (0.117mm extra depth),    2 drills, path lenght 2.83\n" +
                     "Drill 0.90 (0.210mm extra depth),    2 drills, path lenght 2.83\n" +
                     "Total: 4 drills, 5.66mm tool path\n";
+
+    @Before
+    public void setup(){
+        Locale.setDefault(Locale.US);
+    }
 
     @Test
     public void testRotateAndCenter() throws Exception {
